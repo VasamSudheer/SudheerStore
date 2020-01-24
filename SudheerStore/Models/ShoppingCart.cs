@@ -93,11 +93,21 @@ namespace SudheerStore.Models
 
         public int GetCount()
         {
-            //return 0;
-            int? count =
-                (from cartItems in db.Carts where cartItems.CartId == ShoppingCartId select (int?)cartItems.Count).Sum();
+            int count;
+            try
+            {
+                count =
+                (from cartItems in db.Carts where cartItems.CartId == ShoppingCartId select (int)cartItems.Count).Sum();
 
-            return count ?? 0;
+            }
+            catch (Exception ex)
+            {
+
+                 count = 0;
+            }
+            //return 0;
+            
+            return count!=null? count: 0;
         }
 
         public decimal GetTotal()
